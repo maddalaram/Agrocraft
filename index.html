@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrocraft - Fresh from Farm</title>
+    <style>
+        /* Global Styles */
+        :root {
+            --primary-color: #2E7D32;
+            --secondary-color: #4CAF50;
+            --light-color: #E8F5E9;
+            --dark-color: #1B5E20;
+            --text-color: #333;
+            --white-color: #FFF;
+            --gray-color: #F5F5F5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: var(--dark-color);
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: var(--white-color);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: var(--dark-color);
+            transform: translateY(-3px);
+        }
+        
+        .btn-light {
+            background: var(--white-color);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+        
+        .btn-light:hover {
+            background: var(--light-color);
+            color: var(--dark-color);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--primary-color);
+            font-size: 32px;
+            font-weight: 700;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-color);
+            font-size: 18px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--white-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+        
+        .logo {
+            color: var(--primary-color);
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .logo span {
+            color: var(--dark-color);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .main-nav {
+            display: flex;
+            align-items: center;
+        }
+        
+        .main-nav a {
+            padding: 10px 15px;
+            margin: 0 5px;
+            font-weight: 600;
+        }
+        
+        .main-nav a:hover {
+            color: var(--secondary-color);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-buttons .btn {
+            margin-left: 10px;
+        }
+        
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+        }
+        
+        .mobile-menu div {
+            width: 25px;
+            height: 3px;
+            margin: 5px;
+            background-color: var(--primary-color);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://source.unsplash.com/random/1600x900/?farm,agriculture') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            color: var(--white-color);
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 60px;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+        
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background-color: var(--light-color);
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            padding: 0 20px;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+        
+        .about-image img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 80px 0;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            background-color: var(--light-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 30px;
+        }
+        
+        .feature-card h3 {
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        /* User Profiles Section */
+        .user-profiles {
+            padding: 80px 0;
+            background-color: var(--gray-color);
+        }
+        
+        .profile-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        
+        .profile-tab {
+            padding: 15px 30px;
+            margin: 0 10px;
+            background-color: var(--white-color);
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-tab.active, .profile-tab:hover {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+        }
+        
+        .profile-content {
+            background-color: var(--white-color);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .profile-content-item {
+            display: none;
+        }
+        
+        .profile-content-item.active {
+            display: block;
+        }
+        
+        .profile-content-item h3 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        .profile-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .profile-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .profile-feature i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+        
+        /* Growth Section */
+        .growth {
+            padding: 80px 0;
+        }
+        
+        .chart-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+        
+        .chart {
+            width: 100%;
+            background-color: var(--white-color);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        
+        .benefit-column {
+            flex: 1;
+            min-width: 300px;
+            padding: 0 20px;
+        }
+        
+        .benefit-column h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .benefit-percentage {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 15px;
+        }
+        
+        /* Success Stories */
+        .success-stories {
+            padding: 80px 0;
+            background-color: var(--light-color);
+        }
+        
+        .stories-slider {
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .story-slide {
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 10px;
+            text-align: center;
+        }
+        
+        .story-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+        }
+        
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .story-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .story-content p {
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+        
+        /* Future Goals */
+        .future-goals {
+            padding: 80px 0;
+        }
+        
+        .goals-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .goal-card {
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .goal-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .goal-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .goal-card ul {
+            margin-left: 20px;
+        }
+        
+        .goal-card ul li {
+            margin-bottom: 10px;
+            list-style-type: disc;
+        }
+        
+        /* Customer Support */
+        .customer-support {
+            padding: 80px 0;
+            background-color: var(--gray-color);
+        }
+        
+        .support-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .support-card {
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .support-icon {
+            font-size: 50px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .support-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 80px 0;
+            background: var(--primary-color);
+            color: var(--white-color);
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta .btn {
+            background: var(--white-color);
+            color: var(--primary-color);
+            padding: 15px 30px;
+            font-size: 18px;
+        }
+        
+        .cta .btn:hover {
+            background: var(--light-color);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: var(--white-color);
+            padding-top: 60px;
+        }
+        
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            padding-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            background-color: var(--secondary-color);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--light-color);
+            transition: all 0.3s ease;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--white-color);
+            padding-left: 8px;
+        }
+        
+        .footer-contact p {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .footer-contact p i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+        
+        .footer-social {
+            display: flex;
+            margin-top: 20px;
+        }
+        
+        .footer-social a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            margin-right: 10px;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            color: var(--white-color);
+            transition: all 0.3s ease;
+        }
+        
+        .footer-social a:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-5px);
+        }
+        
+        .footer-bottom {
+            background-color: rgba(0,0,0,0.2);
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .main-nav {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: var(--white-color);
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                flex-direction: column;
+                padding: 20px 0;
+            }
+            
+            .main-nav.active {
+                display: flex;
+            }
+            
+            .main-nav a {
+                margin: 10px 0;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container nav-container">
+            <a href="#" class="logo">Agro<span>Craft</span></a>
+            <ul class="main-nav">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#profiles">User Profiles</a></li>
+                <li><a href="#success">Success Stories</a></li>
+                <li><a href="#support">Support</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="#" class="btn btn-light">Login</a>
+                <a href="#" class="btn">Sign Up</a>
+            </div>
+            <div class="mobile-menu">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <h1>Fresh from Farm to Your Table</h1>
+            <p>Agrocraft connects farmers directly with consumers, ensuring fair trade, fresh organic products, and a secure e-commerce experience while promoting sustainable agriculture.</p>
+            <a href="#" class="btn">Shop Now</a>
+            <a href="#about" class="btn btn-light">Learn More</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">About Agrocraft</h2>
+            <p class="section-subtitle">From Humble Beginnings to Industry Leaders</p>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>What is Agrocraft?</h3>
+                    <p>Agrocraft is a platform connecting farmers directly with consumers, ensuring a seamless farm-to-table experience. We focus on delivering fresh, organic, and locally sourced products through secure and transparent transactions.</p>
+                    <h3>Our Mission</h3>
+                    <p>To become the leading farm-to-table digital marketplace, empowering farmers, ensuring food quality, and enhancing agricultural sustainability through technology.</p>
+                    <a href="#" class="btn">Our Story</a>
+                </div>
+                <div class="about-image">
+                    <img src="/api/placeholder/500/400" alt="Farm to Table Experience">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Platform Features</h2>
+            <p class="section-subtitle">Discover what makes Agrocraft unique</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🌱</div>
+                    <h3>Fresh Produce</h3>
+                    <p>Access to farm-fresh vegetables, fruits, and dairy products directly from local farmers.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚜</div>
+                    <h3>Farming Equipment</h3>
+                    <p>Marketplace for machinery and equipment listing, helping farmers access better tools.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Transparent Pricing</h3>
+                    <p>Fair prices with no hidden costs, ensuring farmers get their due and consumers pay fair prices.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Easy Tracking</h3>
+                    <p>Track your orders in real-time and know exactly when your fresh produce will arrive.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Blog & Media</h3>
+                    <p>Educational content on farming techniques, best practices, and informative videos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💬</div>
+                    <h3>Community</h3>
+                    <p>Connect with farmers and like-minded consumers passionate about sustainable agriculture.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Profiles Section -->
+    <section id="profiles" class="user-profiles">
+        <div class="container">
+            <h2 class="section-title">User Profiles</h2>
+            <p class="section-subtitle">Tailored experiences for different users</p>
+            <div class="profile-tabs">
+                <div class="profile-tab active" data-tab="consumers">Regular Consumers</div>
+                <div class="profile-tab" data-tab="buyers">Bulk Buyers</div>
+                <div class="profile-tab" data-tab="farmers">Farmers</div>
+            </div>
+            <div class="profile-content">
+                <div class="profile-content-item active" id="consumers">
+                    <h3>Regular Consumer Features</h3>
+                    <div class="profile-features">
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Personalized shopping experience</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Order tracking and notifications</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Ratings and reviews system</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Fresh, organic produce</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Special offers and discounts</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Subscription options</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-content-item" id="buyers">
+                    <h3>Bulk Buyer Features</h3>
+                    <div class="profile-features">
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Wholesale pricing</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Dedicated account manager</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Customized delivery schedules</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Bulk order discounts</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Inventory management tools</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Contract farming options</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-content-item" id="farmers">
+                    <h3>Farmer Features</h3>
+                    <div class="profile-features">
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Easy product listing</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Direct sales management</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Machinery & equipment marketplace</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Pesticides & fertilizers access</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Payment tracking dashboard</p>
+                        </div>
+                        <div class="profile-feature">
+                            <i>✓</i>
+                            <p>Training resources</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Growth Section -->
+    <section class="growth">
+        <div class="container">
+            <h2 class="section-title">Growth & Benefits</h2>
+            <p class="section-subtitle">Projected growth and advantages for all stakeholders</p>
+            <div class="chart-container">
+                <div class="chart">
+                    <canvas id="growthChart"></canvas>
+                </div>
+            </div>
+            <div class="benefits">
+                <div class="benefit-column">
+                    <h3>Farmer Benefits</h3>
+                    <div class="benefit-item">
+                        <div class="benefit-percentage">40%</div>
+                        <p>Higher profits through direct sales</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-percentage">30%</div>
+                        <p>Direct access to consumers</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-percentage">20%</div>
+                        <p>Reduced dependency on middlemen</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-percentage">10%</div>
+                        <p>Access to digital markets</p>
+                    </div>
+                </div>
+                <div class="benefit-column">
+                    <h3>Consumer Benefits</h3>
+                    <div class="benefit-item">
+                        <div class="benefit-percentage">50%</div>
+                        <p>Fresh & organic produce</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-percentage">25%</div>
+                        <p>Lower prices without middlemen</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-percentage">15%</div>
+                        <p>Transparency & traceability</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-percentage">10%</div>
+                        <p>Supporting local farmers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Stories Section -->
+    <section id="success" class="success-stories">
+        <div class="container">
+            <h2 class="section-title">Success Stories</h2>
+            <p class="section-subtitle">Real-life transformations through Agrocraft</p>
+            <div class="stories-slider">
+                <div class="story-slide">
+                    <div class="story-image">
+                        <img src="/api/placeholder/100/100" alt="Farmer Portrait">
+                    </div>
+                    <div class="story-content">
+                        <h3>Ramesh Kumar, Farmer</h3>
+                        <p>"Before Agrocraft, I was struggling to get fair prices for my produce. Now, I earn 40% more by selling directly to consumers. It has transformed my life and allowed me to invest in better farming techniques."</p>
+                        <small>Vegetable Farmer from Karnataka</small>
+                    </div>
+                </div>
+                <div class="story-slide">
+                    <div class="story-image">
+                        <img src="/api/placeholder/100/100" alt="Consumer Portrait">
+                    </div>
+                    <div class="story-content">
+                        <h3>Priya Singh, Consumer</h3>
+                        <p>"The quality of produce from Agrocraft is incomparable. I know exactly where my food comes from, and I love supporting local farmers while getting fresher and healthier products for my family."</p>
+                        <small>Regular Customer from Delhi</small>
+                    </div>
+                </div>
+                <div class="story-slide">
+                    <div class="story-image">
+                        <img src="/api/placeholder/100/100" alt="Bulk Buyer Portrait">
+                    </div>
+                    <div class="story-content">
+                        <h3>Green Leaf Restaurant, Bulk Buyer</h3>
+                        <p>"As a restaurant focused on farm-to-table dining, Agrocraft has been a game-changer for us. We get consistent quality, competitive prices, and our customers love knowing we source locally."</p>
+                        <small>Restaurant Chain in Mumbai</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Future Goals Section -->
+    <section id="future-goals" class="future-goals">
+        <div class="container">
+            <h2 class="section-title">Future Goals</h2>
+            <p class="section-subtitle">Expansion plans & sustainability initiatives</p>
