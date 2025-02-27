@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products | Agrocraft</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="script.js" defer></script>
+    <style>
+        /* Additional styles for products page */
+        .product-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-width: 200px;
+        }
+        
+        .filter-group label {
+            font-weight: 500;
+        }
+        
+        .filter-group select, .filter-group input {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        
+        .search-container {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .search-container input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+        
+        .search-container i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+        
+        .product-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+        
+        .page-item {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .page-item.active, .page-item:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <h1>Agrocraft</h1>
+                    <p>Fresh from Farm</p>
+                </a>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="products.html" class="active">Products</a></li>
+                    <li><a href="farmers.html">Farmers</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Support</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="signup.html" class="btn">Sign Up</a>
+                <a href="cart.html" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Our Products</h1>
+            <div class="breadcrumbs">
+                <a href="index.html">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Products</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="products-section">
+        <div class="container">
+            <div class="product-filters">
+                <div class="filter-group">
+                    <label for="category-filter">Category</label>
+                    <select id="category-filter">
+                        <option value="">All Categories</option>
+                        <option value="vegetables">Vegetables</option>
+                        <option value="fruits">Fruits</option>
+                        <option value="dairy">Dairy</option>
+                        <option value="grains">Grains</option>
+                        <option value="herbs">Herbs & Spices</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="price-filter">Price Range</label>
+                    <select id="price-filter">
+                        <option value="">All Prices</option>
+                        <option value="0-50">₹0 - ₹50</option>
+                        <option value="50-100">₹50 - ₹100</option>
+                        <option value="100-200">₹100 - ₹200</option>
+                        <option value="200+">₹200+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sort-filter">Sort By</label>
+                    <select id="sort-filter">
+                        <option value="popular">Popularity</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="newest">Newest First</option>
+                    </select>
+                </div>
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search products...">
+                </div>
+            </div>
+
+            <div class="product-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="/api/placeholder/300/300" alt="Organic Tomatoes">
+                        <div class="product-badges">
+                            <span class="badge badge-new">New</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Organic Tomatoes</h3>
+                        <p class="product-farmer">By Ravi Farms</p>
+                        <div class="product-bottom">
+                            <p class="product-price">₹60/kg</p>
+                            <button class="btn btn-sm add-to-cart" data-id="1" data-name="Organic Tomatoes" data-price="60" data-img="/api/placeholder/300/300">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="/api/placeholder/300/300" alt="Fresh Apples">
+                        <div class="product-badges">
+                            <span class="badge badge-bestseller">Bestseller</span>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3>Fresh Apples</h3>
+                        <p class="product-farmer">By Himalayan Orchards</p>
+                        <div class="product-bottom">
+                            <p class="product-price">₹120/kg</p>
+                            <button class="btn btn-sm add-to-cart" data-id="2" data-name="Fresh Apples" data-price="120" data-img="/api/placeholder/300/300">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-img">
+                        <img src="/api/placeholder/300/300" alt="Organic Milk">
+                    </div>
+                    <div class="product-info">
+                        <h3>Organic Milk</h3>
+                        <p class="product-farmer">By Pure Dairy Farm</p>
+                        <div class="product-bottom">
+                            <p class="product-price">₹50/L</p>
+                            <button class="btn btn-sm add-to-cart" data-id="3" data-name="Organic Milk" data-price="50" data-img="/api/placeholder/300/300">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+<div class="product-card">
+    <div class="product-img">
+        <img src="/api/placeholder/300/300" alt="Organic Rice">
+        <div class="product-badges">
+            <span class="badge badge-sale">Sale</span>
+        </div>
+    </div>
+    <div class="product-info">
+        <h3>Organic Rice</h3>
+        <p class="product-farmer">By Green Valley Farms</p>
+        <div class="product-bottom">
+            <p class="product-price"><span class="original-price">₹90/kg</span> ₹75/kg</p>
+            <button class="btn btn-sm add-to-cart" data-id="4" data-name="Organic Rice" data-price="75" data-img="/api/placeholder/300/300">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 5 -->
+<div class="product-card">
+    <div class="product-img">
+        <img src="/api/placeholder/300/300" alt="Fresh Potatoes">
+    </div>
+    <div class="product-info">
+        <h3>Fresh Potatoes</h3>
+        <p class="product-farmer">By Kisan Cooperative</p>
+        <div class="product-bottom">
+            <p class="product-price">₹40/kg</p>
+            <button class="btn btn-sm add-to-cart" data-id="5" data-name="Fresh Potatoes" data-price="40" data-img="/api/placeholder/300/300">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 6 -->
+<div class="product-card">
+    <div class="product-img">
+        <img src="/api/placeholder/300/300" alt="Organic Spinach">
+        <div class="product-badges">
+            <span class="badge badge-organic">100% Organic</span>
+        </div>
+    </div>
+    <div class="product-info">
+        <h3>Organic Spinach</h3>
+        <p class="product-farmer">By Natural Greens</p>
+        <div class="product-bottom">
+            <p class="product-price">₹30/bunch</p>
+            <button class="btn btn-sm add-to-cart" data-id="6" data-name="Organic Spinach" data-price="30" data-img="/api/placeholder/300/300">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 7 -->
+<div class="product-card">
+    <div class="product-img">
+        <img src="/api/placeholder/300/300" alt="Farm Fresh Eggs">
+    </div>
+    <div class="product-info">
+        <h3>Farm Fresh Eggs</h3>
+        <p class="product-farmer">By Happy Hens Farm</p>
+        <div class="product-bottom">
+            <p class="product-price">₹90/dozen</p>
+            <button class="btn btn-sm add-to-cart" data-id="7" data-name="Farm Fresh Eggs" data-price="90" data-img="/api/placeholder/300/300">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 8 -->
+<div class="product-card">
+    <div class="product-img">
+        <img src="/api/placeholder/300/300" alt="Organic Honey">
+        <div class="product-badges">
+            <span class="badge badge-bestseller">Bestseller</span>
+        </div>
+    </div>
+    <div class="product-info">
+        <h3>Organic Honey</h3>
+        <p class="product-farmer">By Himalayan Bee Farms</p>
+        <div class="product-bottom">
+            <p class="product-price">₹250/500g</p>
+            <button class="btn btn-sm add-to-cart" data-id="8" data-name="Organic Honey" data-price="250" data-img="/api/placeholder/300/300">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 9 -->
+<div class="product-card">
+    <div class="product-img">
+        <img src="/api/placeholder/300/300" alt="Fresh Onions">
+    </div>
+    <div class="product-info">
+        <h3>Fresh Onions</h3>
+        <p class="product-farmer">By Krishna Farms</p>
+        <div class="product-bottom">
+            <p class="product-price">₹35/kg</p>
+            <button class="btn btn-sm add-to-cart" data-id="9" data-name="Fresh Onions" data-price="35" data-img="/api/placeholder/300/300">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 10 -->
+<div class="product-card">
+    <div class="product-img">
+        <img src="/api/placeholder/300/300" alt="Organic Turmeric Powder">
+        <div class="product-badges">
+            <span class="badge badge-new">New</span>
+        </div>
+    </div>
+    <div class="product-info">
+        <h3>Organic Turmeric Powder</h3>
+        <p class="product-farmer">By Spice Garden</p>
+        <div class="product-bottom">
+            <p class="product-price">₹120/200g</p>
+            <button class="btn btn-sm add-to-cart" data-id="10" data-name="Organic Turmeric Powder" data-price="120" data-img="/api/placeholder/300/300">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 11 -->
+<div class="product-card">
+    <div class="product-img">
+        <img src="/api/placeholder/300/300" alt="Fresh Mangoes">
+        <div class="product-badges">
+            <span class="badge badge-seasonal">Seasonal</span>
+        </div>
+    </div>
+    <div class="product-info">
+        <h3>Fresh Mangoes</h3>
+        <p class="product-farmer">By Southern Orchards</p>
+        <div class="product-bottom">
+            <p class="product-price">₹180/kg</p>
+            <button class="btn btn-sm add-to-cart" data-id="11" data-name="Fresh Mangoes" data-price="180" data-img="/api/placeholder/300/300">Add to Cart</button>
+        </div>
+    </div>
+</div>
+
+<!-- Product 12 -->
+<div class="product-card">
+    <div class="product-img">
+        <img src="/api/placeholder/300/300" alt="Organic Ghee">
+    </div>
+    <div class="product-info">
+        <h3>Organic Ghee</h3>
+        <p class="product-farmer">By Pure Dairy Farm</p>
+        <div class="product-bottom">
+            <p class="product-price">₹450/500g</p>
+            <button class="btn btn-sm add-to-cart" data-id="12" data-name="Organic Ghee" data-price="450" data-img="/api/placeholder/300/300">Add to Cart</button>
+        </div>
+    </div>
+</div>
+            </div>
+
+            <div class="product-pagination">
+                <div class="page-item active">1</div>
+                <div class="page-item">2</div>
+                <div class="page-item">3</div>
+                <div class="page-item">4</div>
+                <div class="page-item"><i class="fas fa-chevron-right"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-farmers">
+        <div class="container">
+            <h2 class="section-title">Featured Farmers</h2>
+            <div class="farmer-cards">
+                <div class="farmer-card">
+                    <img src="/api/placeholder/120/120" alt="Ravi Kumar" class="farmer-img">
+                    <h3>Ravi Kumar</h3>
+                    <p>Organic Vegetable Farmer</p>
+                    <div class="farmer-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span>(4.5)</span>
+                    </div>
+                    <a href="farmer-profile.html" class="btn btn-sm">View Profile</a>
+                </div>
+                <div class="farmer-card">
+                    <img src="/api/placeholder/120/120" alt="Meera Patel" class="farmer-img">
+                    <h3>Meera Patel</h3>
+                    <p>Sustainable Fruit Grower</p>
+                    <div class="farmer-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span>(5.0)</span>
+                    </div>
+                    <a href="farmer-profile.html" class="btn btn-sm">View Profile</a>
+                </div>
+                <div class="farmer-card">
+                    <img src="/api/placeholder/120/120" alt="Sukhvinder Singh" class="farmer-img">
+                    <h3>Sukhvinder Singh</h3>
+                    <p>Organic Dairy Farmer</p>
+                    <div class="farmer-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <span>(4.0)</span>
+                    </div>
+                    <a href="farmer-profile.html" class="btn btn-sm">View Profile</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Are You a Farmer?</h2>
+                <p>Join our community and sell your products directly to consumers. No middlemen, better profits!</p>
+                <a href="farmer-signup.html" class="btn btn-lg">Join as Farmer</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <h2>Agrocraft</h2>
+                        <p>Fresh from Farm</p>
+                    </div>
+                    <p>Connecting farmers directly with consumers, ensuring fair trade, fresh organic products, and a secure e-commerce experience.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="products.html">Products</a></li>
+                        <li><a href="farmers.html">Farmers</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>For Customers</h3>
+                    <ul class="footer-links">
+                        <li><a href="login.html">My Account</a></li>
+                        <li><a href="cart.html">Shopping Cart</a></li>
+                        <li><a href="orders.html">Track Orders</a></li>
+                        <li><a href="faq.html">FAQs</a></li>
+                        <li><a href="support.html">Customer Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>For Farmers</h3>
+                    <ul class="footer-links">
+                        <li><a href="farmer-signup.html">Become a Seller</a></li>
+                        <li><a href="farmer-login.html">Seller Dashboard</a></li>
+                        <li><a href="farmer-resources.html">Resources</a></li>
+                        <li><a href="farmer-support.html">Seller Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Agrocraft. All Rights Reserved.</p>
+                <div class="footer-bottom-links">
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="shipping.html">Shipping Policy</a>
+                    <a href="returns.html">Return Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Shopping Cart Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize cart from localStorage
+            let cart = JSON.parse(localStorage.getItem('agrocraft-cart')) || [];
+            updateCartCount();
+
+            // Add to cart buttons
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const name = this.getAttribute('data-name');
+                    const price = parseFloat(this.getAttribute('data-price'));
+                    const img = this.getAttribute('data-img');
+                    
+                    // Check if product already in cart
+                    const existingItem = cart.find(item => item.id === id);
+                    
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            id,
+                            name,
+                            price,
+                            img,
+                            quantity: 1
+                        });
+                    }
+                    
+                    // Save cart to localStorage
+                    localStorage.setItem('agrocraft-cart', JSON.stringify(cart));
+                    
+                    // Update cart count
+                    updateCartCount();
+                    
+                    // Show message
+                    showMessage(`${name} added to cart!`);
+                });
+            });
+
+            // Filter functionality
+            const categoryFilter = document.getElementById('category-filter');
+            const priceFilter = document.getElementById('price-filter');
+            const sortFilter = document.getElementById('sort-filter');
+            const searchInput = document.querySelector('.search-container input');
+            
+            // Event listeners for filters
+            categoryFilter.addEventListener('change', applyFilters);
+            priceFilter.addEventListener('change', applyFilters);
+            sortFilter.addEventListener('change', applyFilters);
+            searchInput.addEventListener('input', applyFilters);
+            
+            // Pagination
+            const pageItems = document.querySelectorAll('.page-item');
+            pageItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    pageItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    // In a real app, this would load the appropriate page of products
+                });
+            });
+            
+            // Mobile menu toggle
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            mobileMenuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('active');
+            });
+            
+            // Helper functions
+            function updateCartCount() {
+                const cartCount = document.querySelector('.cart-count');
+                const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+                cartCount.textContent = totalItems;
+            }
+            
+            function showMessage(message) {
+                // Create message element
+                const msgElement = document.createElement('div');
+                msgElement.className = 'toast-message';
+                msgElement.textContent = message;
+                document.body.appendChild(msgElement);
+                
+                // Show and hide after 3 seconds
+                setTimeout(() => {
+                    msgElement.classList.add('show');
+                    setTimeout(() => {
+                        msgElement.classList.remove('show');
+                        setTimeout(() => {
+                            document.body.removeChild(msgElement);
+                        }, 300);
+                    }, 3000);
+                }, 10);
+            }
+            
+            function applyFilters() {
+                // In a real app, this would filter the product cards based on selections
+                console.log('Filters applied:', {
+                    category: categoryFilter.value,
+                    priceRange: priceFilter.value,
+                    sortBy: sortFilter.value,
+                    search: searchInput.value
+                });
+                
+                // Show message for demo
+                showMessage('Filters applied!');
+            }
+        });
+    </script>
+</body>
+</html>
