@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrocraft - Fresh from Farm</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5fff0;
+            text-align: center;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        header {
+            background-color: #2E8B57;
+            color: white;
+            padding: 15px;
+            transition: background-color 0.3s;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+        nav ul li {
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        nav ul li a:hover {
+            color: #FFD700;
+        }
+        section {
+            padding: 20px;
+        }
+        .product-list {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .product {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .product:hover {
+            transform: scale(1.1);
+            box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .product button {
+            background-color: #2E8B57;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .product button:hover {
+            background-color: #276749;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            margin: auto;
+            animation: fadeIn 1s ease-in;
+        }
+        form input, button {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #2E8B57;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        button:hover {
+            background-color: #276749;
+            transform: scale(1.05);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let users = []; // Stores users for demo purposes
+            let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null; // Check if user is logged in
+            let products = [
+                { id: 1, name: 'Fresh Apples', description: 'Organic and locally sourced', price: 5 },
+                { id: 2, name: 'Green Vegetables', description: 'Pesticide-free and farm-fresh', price: 3 }
+            ];
+            let cart = JSON.parse(localStorage.getItem('cart')) || []; // Initialize cart from localStorage
+
+            // Handle user login, logout
+            if (currentUser) {
+                document.getElementById('signin').style.display = 'none';
+                document.getElementById('signup').style.display = 'none';
+                document.getElementById('logout').style.display = 'inline-block';
+                document.getElementById('products-link').style.display = 'inline-block';
+                document.getElementById('cart-link').style.display = 'inline-block';
+                document.getElementById('contact-link').style.display = 'inline-block';
+                document.getElementById('signup-link').style.display = 'none';
+                document.getElementById('signin-link').style.display = 'none';
+            }
+
+            // Display products
+            const productsList = document.getElementById('products-list');
+            products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+                productDiv.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p>Price: $${product.price}</p>
+                    <button onclick="addToCart(${product.id})">Add to Cart</button>
+                `;
+                productsList.appendChild(productDiv);
+            });
+
+            // Add product to cart
+            window.addToCart = function(productId) {
+                const product = products.find(p => p.id === productId);
+                cart.push(product);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                alert(`${product.name} has been added to your cart.`);
+            };
+
+            // Show cart contents
+            const cartSection = document.getElementById('cart');
+            const cartList = document.getElementById('cart-list');
+            const totalPriceElement = document.getElementById('total-price');
+
+            cart.forEach(item => {
+                const cartItemDiv = document.createElement('div');
+                cartItemDiv.className = 'product';
+                cartItemDiv.innerHTML = `
+                    <h3>${item.name}</h3>
+                    <p>Price: $${item.price}</p>
+                `;
+                cartList.appendChild(cartItemDiv);
+            });
+
+            const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+            totalPriceElement.innerText = `Total: $${totalPrice}`;
+
+            // Checkout and clear cart
+            const checkoutButton = document.getElementById('checkout');
+            checkoutButton.addEventListener('click', function() {
+                if (cart.length === 0) {
+                    alert('Your cart is empty!');
+                } else {
+                    alert('Thank you for your purchase!');
+                    localStorage.removeItem('cart'); // Clear the cart from localStorage
+                    window.location.href = '#home'; // Redirect to home
+                }
+            });
+
+            // Handle Logout (Clear session)
+            const logoutButton = document.getElementById('logout');
+            logoutButton.addEventListener('click', function() {
+                localStorage.removeItem('currentUser'); // Clear session
+                alert('You have logged out successfully.');
+                window.location.href = '#home'; // Redirect to home page after logout
+            });
+
+            // Handle Sign Up
+            const signupForm = document.getElementById('signup-form');
+            signupForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const name = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+                const role = document.getElementById('signup-role').value;
+
+                if (users.some(u => u.email === email)) {
+                    alert('Email already exists. Please try another one.');
+                } else {
+                    const user = { name, email, password, role };
+                    users.push(user);
+                    alert('Signup successful! Please sign in.');
+                    document.getElementById('signup-form').reset();
+                    document.getElementById('signup').style.display = 'none';
+                    document.getElementById('signin').style.display = 'block';
+                }
+            });
+
+            // Handle Sign In
+            const signinForm = document.getElementById('signin-form');
+            signinForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const email = document.getElementById('signin-email').value;
+                const password = document.getElementById('signin-password').value;
+
+                const user = users.find(u => u.email === email && u.password === password);
+                if (user) {
+                    currentUser = user;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    alert(`Welcome ${user.name}, you are logged in as a ${user.role}.`);
+                    window.location.href = "#products"; // Redirect to products page
+                } else {
+                    alert('Invalid email or password.');
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Agrocraft</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products" id="products-link" style="display:none;">Products</a></li>
+                <li><a href="#cart" id="cart-link" style="display:none;">Cart</a></li>
+                <li><a href="#contact" id="contact-link" style="display:none;">Contact</a></li>
+                <li><a href="#signup" id="signup-link">Sign Up</a></li>
+                <li><a href="#signin" id="signin-link">Sign In</a></li>
+                <li><a href="javascript:void(0);" id="logout" style="display:none;">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section id="home">
+        <h2>Welcome to Agrocraft</h2>
+        <p>Connecting farmers directly with consumers for fresh, organic produce.</p>
+    </section>
+    
+    <section id="products" style="display:none;">
+        <h2>Our Products</h2>
+        <div class="product-list" id="products-list"></div>
+    </section>
+    
+    <section id="cart" style="display:none;">
+        <h2>Your Cart</h2>
+        <div id="cart-list"></div>
+        <p id="total-price"></p>
+        <button id="checkout">Checkout</button>
+    </section>
+    
+    <section id="signup">
+        <h2>Sign Up</h2>
+        <form id="signup-form">
+            <input type="text" id="signup-name" placeholder="Name" required>
+            <input type="email" id="signup-email" placeholder="Email" required>
+            <input type="password" id="signup-password" placeholder="Password" required>
+            <select id="signup-role" required>
+                <option value="customer">Customer</option>
+                <option value="farmer">Farmer</option>
+            </select>
+            <button type="submit">Sign Up</button>
+        </form>
+    </section>
+
+    <section id="signin" style="display:none;">
+        <h2>Sign In</h2>
+        <form id="signin-form">
+            <input type="email" id="signin-email" placeholder="Email" required>
+            <input type="password" id="signin-password" placeholder="Password" required>
+            <button type="submit">Sign In</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Agrocraft. All rights reserved.</p>
+    </footer>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>

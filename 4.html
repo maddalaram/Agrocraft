@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agrocraft - Fresh from Farm</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Add styles for cart and payment */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5fff0;
+            text-align: center;
+        }
+        header {
+            background-color: #2E8B57;
+            color: white;
+            padding: 15px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        .product-list {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .product {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .cart-container {
+            padding: 20px;
+            text-align: center;
+        }
+        .cart {
+            display: inline-block;
+            padding: 10px;
+            border: 1px solid #2E8B57;
+            width: 300px;
+            text-align: left;
+        }
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+        }
+        .payment-form input, .payment-form button {
+            padding: 10px;
+            margin: 10px;
+            width: 250px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Agrocraft</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#cart">Cart</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home">
+        <h2>Welcome to Agrocraft</h2>
+        <p>Connecting farmers directly with consumers for fresh, organic produce.</p>
+    </section>
+    
+    <section id="products">
+        <h2>Our Products</h2>
+        <div class="product-list">
+            <div class="product" data-code="A001">
+                <h3>Fresh Apples</h3>
+                <p>Organic and locally sourced.</p>
+                <p class="price">$3.99</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+            <div class="product" data-code="A002">
+                <h3>Green Vegetables</h3>
+                <p>Pesticide-free and farm-fresh.</p>
+                <p class="price">$2.49</p>
+                <button class="add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="cart" class="cart-container">
+        <div class="cart">
+            <h3>Shopping Cart</h3>
+            <div class="cart-item">No items added yet.</div>
+            <div>Total: $<span id="total-amount">0.00</span></div>
+        </div>
+    </section>
+
+    <section id="payment">
+        <h2>Checkout</h2>
+        <form class="payment-form" id="payment-form">
+            <input type="text" id="card-number" placeholder="Card Number" required>
+            <input type="text" id="expiration" placeholder="Expiration Date" required>
+            <input type="text" id="cvv" placeholder="CVV" required>
+            <button type="submit">Pay Now</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Agrocraft. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cart = [];
+            const cartContainer = document.querySelector('.cart');
+            const totalAmount = document.getElementById('total-amount');
+            
+            // Add to Cart functionality
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const productCard = button.parentElement;
+                    const productName = productCard.querySelector('h3').textContent;
+                    const productPrice = parseFloat(productCard.querySelector('.price').textContent.replace('$', ''));
+                    const productCode = productCard.getAttribute('data-code');
+                    addItemToCart(productName, productPrice, productCode);
+                });
+            });
+
+            function addItemToCart(productName, productPrice, productCode) {
+                const existingItem = cart.find(item => item.code === productCode);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ name: productName, price: productPrice, code: productCode, quantity: 1 });
+                }
+                updateCart();
+            }
+
+            function updateCart() {
+                cartContainer.innerHTML = `<h3>Shopping Cart</h3>`;
+                let total = 0;
+                cart.forEach(item => {
+                    total += item.price * item.quantity;
+                    cartContainer.innerHTML += `<div class="cart-item">
+                        <span>${item.name} (x${item.quantity})</span>
+                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>`;
+                });
+                cartContainer.innerHTML += `<div>Total: $${total.toFixed(2)}</div>`;
+                totalAmount.textContent = total.toFixed(2);
+            }
+
+            // Payment Form Submission
+            const paymentForm = document.getElementById('payment-form');
+            paymentForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const total = parseFloat(totalAmount.textContent);
+                if (total > 0) {
+                    alert(`Payment Successful! You have paid $${total.toFixed(2)}.`);
+                    // Reset cart after payment
+                    cart.length = 0;
+                    updateCart();
+                } else {
+                    alert('Your cart is empty.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
